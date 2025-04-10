@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Tarefas</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      background: #0f172a;
+      font-family: Arial, sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #38bdf8;
+    }
+
+    #taskInput {
+      padding: 10px;
+      width: 300px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    #addBtn {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background: #38bdf8;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    ul {
+      margin-top: 20px;
+      padding: 0;
+      width: 360px;
+      list-style: none;
+    }
+
+    li {
+      background: #1e293b;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    li.done {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+
+    .btns button {
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 10px;
+    }
+
+    .btns button:hover {
+      color: #22c55e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📋 Lista de Tarefas</h1>
+  <div>
+    <input type="text" id="taskInput" placeholder="Nova tarefa...">
+    <button id="addBtn">Adicionar</button>
+  </div>
+  <ul id="taskList"></ul>
+
+  <script>
+    $(document).ready(function() {
+      $('#addBtn').click(function() {
+        const task = $('#taskInput').val().trim();
+        if (task !== '') {
+          const item = $(`
+            <li>
+              <span class="taskText">${task}</span>
+              <div class="btns">
+                <button class="check">✔</button>
+                <button class="delete">✖</button>
+              </div>
+            </li>
+          `);
+          $('#taskList').append(item.hide().fadeIn());
+          $('#taskInput').val('');
+        }
+      });
+
+      $('#taskList').on('click', '.check', function() {
+        $(this).closest('li').toggleClass('done');
+      });
+
+      $('#taskList').on('click', '.delete', function() {
+        $(this).closest('li').fadeOut(function() {
+          $(this).remove();
+        });
+      });
+
+      $('#taskInput').keypress(function(e) {
+        if (e.which === 13) $('#addBtn').click();
+      });
+    });
+  </script>
+</body>
+</html>
